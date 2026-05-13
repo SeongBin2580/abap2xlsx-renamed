@@ -30,7 +30,7 @@ jobs:
       - name: Mirror and rename abap2xlsx
         uses: abap2xlsx/abap2xlsx-rename-action@main
         with:
-          folder: src/abap2xlsx/pp
+          folder: pp
           patterns: >
             [
               {
@@ -141,7 +141,7 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
-          git add -A src
+          git add -A pp
 
           if git diff --cached --quiet; then
             echo "No changes to commit"
