@@ -66,14 +66,14 @@ CLASS zcl_pp_xls_style_cond DEFINITION
     CONSTANTS c_rule_above_average TYPE zppe_xls_conditi_rule VALUE 'aboveAverage'. "#EC NOTEXT
     CONSTANTS c_showvalue_false TYPE tv_conditional_show_value VALUE 0. "#EC NOTEXT
     CONSTANTS c_showvalue_true TYPE tv_conditional_show_value VALUE 1. "#EC NOTEXT
-    DATA mode_cellis TYPE zexcel_conditional_cellis .
+    DATA mode_cellis TYPE zppt_xls_condition_cellis .
     DATA mode_textfunction TYPE ts_conditional_textfunction .
-    DATA mode_colorscale TYPE zexcel_conditional_colorscale .
-    DATA mode_databar TYPE zexcel_conditional_databar .
-    DATA mode_expression TYPE zexcel_conditional_expression .
-    DATA mode_iconset TYPE zexcel_conditional_iconset .
-    DATA mode_top10 TYPE zexcel_conditional_top10 .
-    DATA mode_above_average TYPE zexcel_conditional_above_avg .
+    DATA mode_colorscale TYPE zppt_xls_condition_colorscale .
+    DATA mode_databar TYPE zppt_xls_condition_databar .
+    DATA mode_expression TYPE zppt_xls_condition_expression .
+    DATA mode_iconset TYPE zppt_xls_condition_iconset .
+    DATA mode_top10 TYPE zppt_xls_condition_top10 .
+    DATA mode_above_average TYPE zppt_xls_condition_above_avg .
     DATA priority TYPE zppe_xls_style_priority VALUE 1. "#EC NOTEXT .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  . " .
     DATA rule TYPE zppe_xls_conditi_rule .
 
@@ -183,7 +183,7 @@ CLASS zcl_pp_xls_style_cond IMPLEMENTATION.
 
   METHOD constructor.
 
-    DATA: ls_iconset TYPE zexcel_conditional_iconset.
+    DATA: ls_iconset TYPE zppt_xls_condition_iconset.
     ls_iconset-iconset     = zcl_pp_xls_style_cond=>c_iconset_3trafficlights.
     ls_iconset-cfvo1_type  = zcl_pp_xls_style_cond=>c_cfvo_type_percent.
     ls_iconset-cfvo1_value = '0'.

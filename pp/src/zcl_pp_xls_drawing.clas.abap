@@ -105,12 +105,12 @@ CLASS zcl_pp_xls_drawing DEFINITION
         zcx_pp_xls .
     METHODS set_position2
       IMPORTING
-        !ip_from   TYPE zexcel_drawing_location
-        !ip_to     TYPE zexcel_drawing_location
+        !ip_from   TYPE zppt_xls_drawing_location
+        !ip_to     TYPE zppt_xls_drawing_location
         !ip_anchor TYPE zppe_xls_drawing_anchor OPTIONAL .
     METHODS get_position
       RETURNING
-        VALUE(rp_position) TYPE zexcel_drawing_position .
+        VALUE(rp_position) TYPE zppt_xls_drawing_position .
     METHODS get_type
       RETURNING
         VALUE(rp_type) TYPE zppe_xls_drawing_type .
@@ -138,9 +138,9 @@ CLASS zcl_pp_xls_drawing DEFINITION
     DATA media_source TYPE c .
     DATA media_type TYPE string .
     DATA io TYPE skwf_io .
-    DATA from_loc TYPE zexcel_drawing_location .
-    DATA to_loc TYPE zexcel_drawing_location .
-    DATA size TYPE zexcel_drawing_size .
+    DATA from_loc TYPE zppt_xls_drawing_location .
+    DATA to_loc TYPE zppt_xls_drawing_location .
+    DATA size TYPE zppt_xls_drawing_size .
     CONSTANTS c_ixml_iid_element TYPE i VALUE 130.
 
 ENDCLASS.

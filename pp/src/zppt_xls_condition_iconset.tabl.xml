@@ -3,7 +3,7 @@
  <asx:abap xmlns:asx="http://www.sap.com/abapxml" version="1.0">
   <asx:values>
    <DD02V>
-    <TABNAME>ZEXCEL_CONDITIONAL_ICONSET</TABNAME>
+    <TABNAME>ZPPT_XLS_CONDITION_ICONSET</TABNAME>
     <DDLANGUAGE>E</DDLANGUAGE>
     <TABCLASS>INTTAB</TABCLASS>
     <DDTEXT>Iconset settings</DDTEXT>

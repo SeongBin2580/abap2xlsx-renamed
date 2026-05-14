@@ -1091,7 +1091,7 @@ CLASS lcl_excel_common_test IMPLEMENTATION.
 
 
   METHOD describe_structure.
-    DATA: ls_test TYPE zexcel_pane.
+    DATA: ls_test TYPE zppt_xls_pane.
     DATA: lo_structdescr TYPE REF TO cl_abap_structdescr.
     DATA: lt_structure TYPE ddfields.
     FIELD-SYMBOLS: <line> LIKE LINE OF lt_structure.

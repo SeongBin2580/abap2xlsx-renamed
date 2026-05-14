@@ -2820,7 +2820,7 @@ CLASS zcl_pp_xls_writer_2007 IMPLEMENTATION.
           lo_element_ext          TYPE REF TO if_ixml_element,
           lo_element_pic          TYPE REF TO if_ixml_element,
           lo_element_clientdata   TYPE REF TO if_ixml_element,
-          ls_position             TYPE zexcel_drawing_position,
+          ls_position             TYPE zppt_xls_drawing_position,
           lv_col                  TYPE string, " zexcel_cell_column,
           lv_row                  TYPE string, " zexcel_cell_row.
           lv_col_offset           TYPE string,
@@ -6277,7 +6277,7 @@ CLASS zcl_pp_xls_writer_2007 IMPLEMENTATION.
           lv_content_image_center TYPE string,
           lv_content_image_right  TYPE string,
           lv_value                TYPE string,
-          ls_drawing_position     TYPE zexcel_drawing_position.
+          ls_drawing_position     TYPE zppt_xls_drawing_position.
 
     IF is_footer-left_image IS NOT INITIAL.
       lv_content_left = lc_shape.
@@ -6382,7 +6382,7 @@ CLASS zcl_pp_xls_writer_2007 IMPLEMENTATION.
           lv_content_image_center TYPE string,
           lv_content_image_right  TYPE string,
           lv_value                TYPE string,
-          ls_drawing_position     TYPE zexcel_drawing_position.
+          ls_drawing_position     TYPE zppt_xls_drawing_position.
 
     CLEAR ep_content.
 
