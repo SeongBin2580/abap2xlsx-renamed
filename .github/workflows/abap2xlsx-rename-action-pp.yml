@@ -118,11 +118,53 @@ jobs:
       - name: Show changed files
         run: git status --short
 
+      - name: Prepare abapGit offline import folder
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          rm -rf dist
+          mkdir -p dist/abapgit-import
+
+          if [ -f "pp/.abapgit.xml" ]; then
+            repo_root="pp"
+          else
+            abapgit_file="$(find pp -type f -name ".abapgit.xml" -print -quit)"
+            if [ -z "${abapgit_file}" ]; then
+              echo "ERROR: Cannot find .abapgit.xml under pp."
+              echo "abapGit offline import requires .abapgit.xml at the repository root."
+              echo "Generated files preview:"
+              find pp -maxdepth 4 -type f | sort | sed -n '1,200p'
+              exit 1
+            fi
+            repo_root="$(dirname "${abapgit_file}")"
+          fi
+
+          if [ ! -d "${repo_root}/src" ]; then
+            echo "ERROR: Cannot find src folder beside .abapgit.xml."
+            echo "Detected repo root: ${repo_root}"
+            echo "Detected folders preview:"
+            find "${repo_root}" -maxdepth 4 -type d | sort | sed -n '1,120p'
+            exit 1
+          fi
+
+          echo "Detected abapGit repository root: ${repo_root}"
+
+          cp -a "${repo_root}/." dist/abapgit-import/
+          rm -rf dist/abapgit-import/.git dist/abapgit-import/.github
+          rm -f dist/abapgit-import/__placeholder__.txt
+
+          test -f dist/abapgit-import/.abapgit.xml
+          test -d dist/abapgit-import/src
+
+          echo "SAP import artifact root preview:"
+          find dist/abapgit-import -maxdepth 2 -mindepth 1 | sort | sed -n '1,120p'
+
       - name: Upload SAP import ZIP artifact
         uses: actions/upload-artifact@v7
         with:
           name: abap2xlsx-pp
-          path: pp/
+          path: dist/abapgit-import/
           if-no-files-found: error
           include-hidden-files: true
           compression-level: 9
