@@ -24,13 +24,25 @@ jobs:
 
       - name: Prepare output folder
         run: |
-          mkdir -p pp
-          touch pp/__placeholder__.txt
+          mkdir -p pp/src
+          cat > pp/.abapgit.xml <<'XML'
+          <?xml version="1.0" encoding="utf-8"?>
+          <asx:abap xmlns:asx="http://www.sap.com/abapxml" version="1.0">
+           <asx:values>
+            <DATA>
+             <MASTER_LANGUAGE>E</MASTER_LANGUAGE>
+             <STARTING_FOLDER>/src/</STARTING_FOLDER>
+             <FOLDER_LOGIC>PREFIX</FOLDER_LOGIC>
+            </DATA>
+           </asx:values>
+          </asx:abap>
+          XML
+          touch pp/src/__placeholder__.txt
 
       - name: Mirror and rename abap2xlsx
         uses: abap2xlsx/abap2xlsx-rename-action@main
         with:
-          folder: pp
+          folder: pp/src
           patterns: >
             [
               {
@@ -118,53 +130,35 @@ jobs:
       - name: Show changed files
         run: git status --short
 
-      - name: Prepare abapGit offline import folder
+      - name: Validate abapGit offline import folder
         shell: bash
         run: |
           set -euo pipefail
 
-          rm -rf dist
-          mkdir -p dist/abapgit-import
+          rm -f pp/src/__placeholder__.txt
 
-          if [ -f "pp/.abapgit.xml" ]; then
-            repo_root="pp"
-          else
-            abapgit_file="$(find pp -type f -name ".abapgit.xml" -print -quit)"
-            if [ -z "${abapgit_file}" ]; then
-              echo "ERROR: Cannot find .abapgit.xml under pp."
-              echo "abapGit offline import requires .abapgit.xml at the repository root."
-              echo "Generated files preview:"
-              find pp -maxdepth 4 -type f | sort | sed -n '1,200p'
-              exit 1
-            fi
-            repo_root="$(dirname "${abapgit_file}")"
-          fi
+          test -f pp/.abapgit.xml
+          test -d pp/src
 
-          if [ ! -d "${repo_root}/src" ]; then
-            echo "ERROR: Cannot find src folder beside .abapgit.xml."
-            echo "Detected repo root: ${repo_root}"
-            echo "Detected folders preview:"
-            find "${repo_root}" -maxdepth 4 -type d | sort | sed -n '1,120p'
+          object_count=$(find pp/src -type f \( -name "*.xml" -o -name "*.abap" -o -name "*.json" \) | wc -l)
+          if [ "${object_count}" -eq 0 ]; then
+            echo "ERROR: No abapGit object files found under pp/src."
+            echo "Generated files preview:"
+            find pp -maxdepth 4 -type f | sort | sed -n '1,200p'
             exit 1
           fi
 
-          echo "Detected abapGit repository root: ${repo_root}"
-
-          cp -a "${repo_root}/." dist/abapgit-import/
-          rm -rf dist/abapgit-import/.git dist/abapgit-import/.github
-          rm -f dist/abapgit-import/__placeholder__.txt
-
-          test -f dist/abapgit-import/.abapgit.xml
-          test -d dist/abapgit-import/src
-
-          echo "SAP import artifact root preview:"
-          find dist/abapgit-import -maxdepth 2 -mindepth 1 | sort | sed -n '1,120p'
+          echo "abapGit offline import folder is ready."
+          echo "Root files:"
+          find pp -maxdepth 1 -type f | sort
+          echo "src preview:"
+          find pp/src -maxdepth 2 -type f | sort | sed -n '1,120p'
 
       - name: Upload SAP import ZIP artifact
         uses: actions/upload-artifact@v7
         with:
           name: abap2xlsx-pp
-          path: dist/abapgit-import/
+          path: pp/
           if-no-files-found: error
           include-hidden-files: true
           compression-level: 9
