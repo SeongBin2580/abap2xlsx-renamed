@@ -1,0 +1,23 @@
+GitHub Repository
+→ Actions
+→ 왼쪽에서 abap2xlsx-rename-action-pp workflow 선택
+→ 성공한 실행 건 클릭(링크)
+→ Summary 화면 아래쪽 또는 오른쪽의 Artifacts 영역 확인
+→ abap2xlsx-pp 클릭
+→ abap2xlsx-pp.zip 다운로드
+--
+
+ZABAPGIT_STANDALONE 작업순서
+new offline
+  - name : 작업명
+  - package : object 적재장소 : $ybz1 ( local package -> subpackage 로 만들경우 $ybz1 생성후 tdevc 에서 PARENTCL 수정 )
+  - create repo
+Repository 선택 
+  - Import zip ( 상단메뉴 ) 
+  - Pull zip ( 상단메뉴 : Import 에 이상이 없는 경우 )
+
+  - Advanced
+    - Remove Repository  : 작업영역 삭제 -> 작업영역내 기록 삭제 Object 는 삭제 안됨
+    - Remove Object      : 작업한 Object 삭제 -> 작업영역은 삭제 안됨
+    - Uninstall          : 작업영역, 작업 Object 삭제
+--
